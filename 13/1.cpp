@@ -8,6 +8,10 @@ int main() {
     vector<int> vec;
     cout << "Input vector size: ";
     cin >> size;
+    if(size < 0){
+        cout << "Invalid size!";
+        return 0;
+    }    
     cout << "Input numbers: ";
     int x;
   
