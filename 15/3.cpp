@@ -1,10 +1,27 @@
-////Быстрая сортировка
-//
 #include <iostream>
-//#include <vector>
-//
+#include <vector>
+
 using namespace std;
-//
+
+int main(){
+    vector<int> vec;
+    int number = 0;
+    while(number != -2){
+        cin >> number;
+        if (number != -1){
+            vec.push_back(number);
+        } else if (vec.size() < 5){
+            cout << "Count of vec less than 5!\n";
+        } else{
+            sort(vec.begin(), vec.end());
+            for (int i = 0; i < vec.size(); ++i) {
+                cout << vec[i] << " ";
+            }
+            cout << "\n" << vec[4] << "\n";
+        }
+    }
+    cout << "End";
+
 //int partition(vector<int> numbers, int l, int r){
 //    int m = numbers[(l + r) / 2];
 //    int i = l;
