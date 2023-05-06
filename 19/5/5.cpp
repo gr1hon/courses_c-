@@ -4,8 +4,8 @@
 using namespace std;
 
 bool answer(int n){
-    string question_path = "questions.txt";
-    string answer_path = "answers.txt";
+    string question_path = "..\\questions.txt";
+    string answer_path = "..\\answers.txt";
     ifstream question;
     question.open(question_path);
     if (question.is_open()){
