@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
     ifstream file;
-    file.open("words.txt");
+    file.open("..\\words.txt");
     string word;
     cout << "input word:\n";
     cin >> word;
