@@ -4,23 +4,26 @@
 using namespace std;
 
 bool answer(int n){
-    string path = "C:\\documents\\untitled\\";
-    string question_path = path + to_string(n) + "_question.txt";
-    string answer_path = path + to_string(n) + "_answer.txt";
+    string question_path = "questions.txt";
+    string answer_path = "answers.txt";
     ifstream question;
     question.open(question_path);
     if (question.is_open()){
-        char buffer[1024];
+        string s;
         string player_answer;
-        question.read(buffer, sizeof (buffer));
-        cout << buffer << endl;
+        for (int i = 1; i <= n; ++i) {
+            getline(question, s);
+        }
+        cout << s << endl;
         cout << "Enter your answer(only one word!):" << endl;
         cin >> player_answer;
         ifstream answer;
         answer.open(answer_path);
         if (answer.is_open()){
             string true_answer;
-            answer >> true_answer;
+            for (int i = 1; i <= n; ++i) {
+                getline(answer, true_answer);
+            }
             if (true_answer == player_answer){
                 cout << "Correct answer!" << endl;
                 return true;
