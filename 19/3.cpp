@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
     ifstream file;
-    file.open("table.txt");
+    file.open("..\\table.txt");
     int maxMoney = 0;
     string maxMoneyOwner;
     int sum = 0;
