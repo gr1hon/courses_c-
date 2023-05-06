@@ -12,7 +12,7 @@ int main() {
     if (file.is_open()){
         char buffer[10];
         while(!file.eof()){
-            file.read(buffer, sizeof (buffer));
+            file.read(buffer, sizeof (buffer) - 1);
             if (file.gcount() == sizeof (buffer)){
                 cout << buffer;
             } else{
