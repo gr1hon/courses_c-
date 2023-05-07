@@ -5,8 +5,11 @@
 using namespace std;
 
 int count_bills(){
+    ofstream start;
+    start.open("..\\bank.bin", ios::app);
+    start.close();
     ifstream bank;
-    bank.open("..\\bank.txt");
+    bank.open("..\\bank.bin", ios::binary);
     if (bank.is_open()){
         int count = 0;
         string bill;
@@ -16,7 +19,7 @@ int count_bills(){
         bank.close();
         return count;
     } else{
-        cerr << "File open error!" << endl;
+        cerr << "File open error!2" << endl;
         return -1;
     }
 
@@ -42,20 +45,20 @@ void bank_filling(int n){
     srand(time(nullptr));
     int bills[6] = {100, 200, 500, 1000, 2000, 5000};
     ofstream bank;
-    bank.open("..\\bank.txt", ios::app);
+    bank.open("..\\bank.bin", ios::app);
     if (bank.is_open()){
         for (int i = 0; i < n; ++i) {
             int bill_type = rand() % 6;
             bank << bills[bill_type] << endl;
         }
     } else
-        cerr << "Input file open error!" << endl;
+        cerr << "Input file open error!1" << endl;
     bank.close();
 }
 
 int bank_size(){
     ifstream bank;
-    bank.open("..\\bank.txt");
+    bank.open("..\\bank.bin", ios::app);
     string str;
     int size = 0;
     if (bank.is_open()){
@@ -63,7 +66,7 @@ int bank_size(){
             size++;
         }
     } else
-    cerr << "File open error!" << endl;
+        cerr << "File open error!" << endl;
     return size;
 }
 int main() {
@@ -79,10 +82,10 @@ int main() {
             return 0;
 
     } else{
-        int bank_bills[10];
+        int bank_bills[1000];
         ifstream bank;
         int size = bank_size();
-        bank.open("..\\bank.txt");
+        bank.open("..\\bank.bin", ios::app);
         if (bank.is_open()){
             string bill;
             for (int i = 0; i < size; ++i) {
@@ -141,9 +144,9 @@ int main() {
                     }
                 }
             }
-            remove("..\\bank.txt");
+            remove("..\\bank.bin");
             ofstream bank;
-            bank.open("..\\bank.txt");
+            bank.open("..\\bank.bin", ios::app);
             if (bank.is_open()){
                 for (int i = 0; i < size; ++i) {
                     if (bank_bills[i] != 0){
