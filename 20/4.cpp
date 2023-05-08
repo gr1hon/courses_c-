@@ -6,7 +6,7 @@ using namespace std;
 
 int count_bills(){
     ofstream start;
-    start.open("..\\bank.bin", ios::app);
+    start.open("..\\bank.bin", ios::binary);
     start.close();
     ifstream bank;
     bank.open("..\\bank.bin", ios::binary);
@@ -45,11 +45,11 @@ void bank_filling(int n){
     srand(time(nullptr));
     int bills[6] = {100, 200, 500, 1000, 2000, 5000};
     ofstream bank;
-    bank.open("..\\bank.bin", ios::app);
+    bank.open("..\\bank.bin", ios::app | ios::binary);
     if (bank.is_open()){
         for (int i = 0; i < n; ++i) {
             int bill_type = rand() % 6;
-            bank << bills[bill_type] << endl;
+            bank.write((char*)&bills[bill_type], sizeof (bills[bill_type]));
         }
     } else
         cerr << "Input file open error!1" << endl;
@@ -58,11 +58,12 @@ void bank_filling(int n){
 
 int bank_size(){
     ifstream bank;
-    bank.open("..\\bank.bin", ios::app);
+    bank.open("..\\bank.bin", ios::app | ios::binary);
     string str;
     int size = 0;
     if (bank.is_open()){
-        while(getline(bank, str)){
+        int bill;
+        while(bank.read((char*)&bill, sizeof (bill))){
             size++;
         }
     } else
@@ -85,14 +86,12 @@ int main() {
         int bank_bills[1000];
         ifstream bank;
         int size = bank_size();
-        bank.open("..\\bank.bin", ios::app);
+        bank.open("..\\bank.bin", ios::binary);
         if (bank.is_open()){
-            string bill;
+            int bill;
             for (int i = 0; i < size; ++i) {
-                getline(bank, bill);
-                if (bill != ""){
-                    bank_bills[i] = stoi(bill);
-                }
+                bank.read((char*)&bill, sizeof (bill));
+                bank_bills[i] = bill;
             }
         } else
             cerr << "File open error!" << endl;
@@ -146,11 +145,11 @@ int main() {
             }
             remove("..\\bank.bin");
             ofstream bank;
-            bank.open("..\\bank.bin", ios::app);
+            bank.open("..\\bank.bin", ios::app | ios::binary);
             if (bank.is_open()){
                 for (int i = 0; i < size; ++i) {
                     if (bank_bills[i] != 0){
-                        bank << bank_bills[i] << endl;
+                        bank.write((char*)&bank_bills[i], sizeof (bank_bills[i]));
                     }
                 }
             } else
