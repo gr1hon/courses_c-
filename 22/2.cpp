@@ -6,19 +6,28 @@ using namespace std;
 
 int main() {
     map<string, int> numbers;
-    int i = 0;
     while(true){
         string command;
         cout << "Command:(surname or \"Next\")" << endl;
         cin >> command;
         if (command == "Next"){
-            cout << numbers.begin()->first << endl;
-            map<string, int>::iterator it  = numbers.begin();
-            numbers.erase(it);
-            i++;
+            if(!numbers.empty()){
+                cout << numbers.begin()->first << endl;
+                if(numbers.begin()->second > 1){
+                    numbers.begin()->second--;
+                } else{
+                    map<string, int>::iterator it  = numbers.begin();
+                    numbers.erase(it);
+                }
+            } else{
+                cerr << "The queue is empty!" << endl;
+            }
         } else{
-            pair<string, int> person(command, numbers.size());
-            numbers.insert(person);
+            pair<string, int> person(command, 1);
+            if (numbers.count(person.first) > 0){
+                numbers.find(person.first)->second++;
+            } else
+                numbers.insert(person);
         }
     }
 }
