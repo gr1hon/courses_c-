@@ -13,8 +13,8 @@ struct task{
 
 int main() {
     vector<task> tasks;
-    while(true){
-        string command;
+    string command;
+    while(command!="exit"){
         cout << "Enter the command(begin, end, status or exit):" << endl;
         cin >> command;
         task curr_task;
@@ -47,8 +47,6 @@ int main() {
                 } else
                     cout << "Current task: " << task.name << endl;
             }
-        } else if (command == "exit"){
-            return 0;
         } else
             cout << "Unknown command!" << endl;
     }
