@@ -35,7 +35,7 @@ int main() {
         curr_time = time(nullptr);
         k = curr_time - t;
         if (prev != k){
-            cout << k/60 << ":" << k%60 << endl;
+            cout << (seconds-k)/60 << ":" << (seconds-k)%60 << endl;
             prev = k;
         }
     }
