@@ -52,21 +52,25 @@ class PLayer{
 
 public:
     vector<Track> tracks;
-    
+    bool isPlaying = false;
+
     void playTrack(string str){
-        Track track = searchTrack(str);
-        if(!track.equals(playingTrack) || isPaused){
+        if (!isPlaying){
+            Track track = searchTrack(str);
             cout << "Name: " << track.getName() << endl;
             cout << "Duration: " << track.getDuration() << endl;
             cout << "Creation time: " << asctime(track.getCreationDate());
             playingTrack.copyTrack(track);
+            isPlaying = true;
         }
+
     }
 
     void pauseTrack(){
         if (!playingTrack.getName().empty() && !isPaused){
             cout << playingTrack.getName() << " paused" << endl;
             isPaused = true;
+            isPlaying = false;
         }
     }
 
@@ -78,21 +82,24 @@ public:
                 playingTrack.copyTrack(tracks[k]);
                 cout << "Next track: " << playingTrack.getName() << endl;
                 isPaused = true;
+                isPlaying = false;
                 playTrack(playingTrack.getName());
                 isPaused = false;
+                isPlaying = true;
                 break;
             }
         } while(playingTrack.equals(tracks[k]));
-
     }
-    
+
+
     void stopTrack(){
         if (!playingTrack.getName().empty() && !isStopped){
             cout << playingTrack.getName() << " stopped" << endl;
             isStopped = true;
+            isPlaying = false;
         }
     }
-    
+
 private:
     Track searchTrack (string trackName){
         for (Track track : tracks) {
@@ -103,6 +110,7 @@ private:
     Track playingTrack;
     bool isPaused = false;
     bool isStopped = false;
+
 };
 
 
@@ -125,9 +133,13 @@ int main() {
         cout << "Enter the command:" << endl;
         cin >> command;
         if (command == "play"){
-            cout << "Enter the track name:" << endl;
-            cin >> command;
-            player->playTrack(command);
+            if (!player->isPlaying){
+                cout << "Enter the track name:" << endl;
+                cin >> command;
+                player->playTrack(command);
+            } else
+                cout << "The track is already playing!" << endl;
+
         } else if (command == "pause")
             player->pauseTrack();
         else if (command == "next")
