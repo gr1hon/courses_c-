@@ -45,33 +45,15 @@ public:
         this->color = color::red;
         printColor(this->color);
         cout << "Upper left angle coordinates of rectangle around the shape: ("
-        << this->center.x - radius << "; " << this->center.y + radius << ")\n"
-        << "width: " << 2*radius << ", height: " << 2*radius << endl;
+             << this->center.x - radius << "; " << this->center.y + radius << ")\n"
+             << "width: " << 2*radius << ", height: " << 2*radius << endl;
     }
     Circle(double in_radius): Shape(), radius(in_radius) {
 
     }
 };
 
-class Square: public Shape{
-    double side;
 
-public:
-    double area(){
-        return side * side;
-    }
-
-    void rectangleAndColor(){
-        this->color = color::green;
-        printColor(this->color);
-        cout << "Upper left angle coordinates of rectangle around the shape: ("
-             << this->center.x - side/2 << "; " << this->center.y + side/2 << ")\n"
-             << "width: " << side << ", height: " << side << endl;
-    }
-    Square(double in_side): Shape(), side(in_side){
-
-    }
-};
 
 class Triangle: public Shape{
     double side;
@@ -103,7 +85,10 @@ public:
     }
 
     void rectangleAndColor() {
-        this->color = color::purple;
+        if (height == width)
+            this->color = color::green;
+        else
+            this->color = color::purple;
         printColor(this->color);
         cout << "Upper left angle coordinates of rectangle around the shape: ("
              << this->center.x - width / 2 << "; " << this->center.y + height / 2 << ")\n"
@@ -114,7 +99,14 @@ public:
     }
 };
 
+class Square: public Rectangle{
 
+public:
+
+    Square(double in_side): Rectangle(in_side, in_side){
+
+    }
+};
 
 int main() {
     string shape;
