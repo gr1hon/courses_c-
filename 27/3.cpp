@@ -41,25 +41,45 @@ public:
     }
 };
 
-//class Manager: public Human{
-//    int number{};
-//
-//};
-//
-//class Boss: public Human{
-//
-//};
+class Manager: public Human{
+public:
+    int number{};
+};
+
+class Boss: public Human{
+public:
+    void setTeamNumber(int& number){
+        cout << this->getName() << ", please enter the number of teams:" << endl;
+        cin >> number;
+    }
+
+    void setWorkersNumber(int& number, int n){
+        cout << this->getName() <<  ", please enter the number of workers in team#" << n+1 << ":" << endl;
+        cin >> number;
+    }
+
+    void setId(int& id){
+        cout << this->getName() <<  ", please enter an integer identifier:" << endl;
+        cin >> id;
+    }
+};
 
 class Team{
 
-//    Manager manager;
+    Manager manager;
     vector<Worker> workers;
     int lastWorkingWorker = 0;
+
 
 
 public:
     int teamNumber;
     bool allWorkersInTeamIsWorking = false;
+
+    void setManagerNumber(){
+        manager.number = teamNumber + 1;
+    };
+
     void addWorker(Worker worker){
         workers.push_back(worker);
     }
@@ -83,9 +103,10 @@ public:
         }
     }
 
+
     void addTasks(int k){
         if (!allWorkersInTeamIsWorking){
-            cout << "Manager #" << teamNumber + 1 << " gave " << k << " subtasks to the workers in team#" << teamNumber + 1 << endl;
+            cout << "Manager #" << manager.number << " gave " << k << " subtasks to the workers in team#" << teamNumber + 1 << endl;
             for (int i = 0; i < k; ++i) {
                 workers[lastWorkingWorker].setIsWorking(true);
                 workers[lastWorkingWorker].setWorkType(rand() % 3);
@@ -111,17 +132,20 @@ bool allWalkersIsWorking(vector<Team>& teams){
 }
 
 int main() {
-    //Здесь не совсем понял, для чего нужны менеджер и глава, но сделал для них классы на всякий случай
-    cout << "Enter the number of teams:" << endl;
+    auto* boss = new Boss();
+    string name;
+    cout << "Boss, please enter your name:" << endl;
+    cin >> name;
+    boss->setName(name);
     int number;
-    cin >> number;
+    boss->setTeamNumber(number);
     vector<Team> teams;
     for (int i = 0; i < number; ++i) {
         auto* team = new Team();
         team->teamNumber = i;
-        cout << "Enter the number of workers in team#" << i+1 << ":" << endl;
+        team->setManagerNumber();
         int workersNumber;
-        cin >> workersNumber;
+        boss->setWorkersNumber(workersNumber, i);
         for (int j = 0; j < workersNumber; ++j) {
             auto* worker = new Worker();
             worker->setName(to_string(j+1));
@@ -132,12 +156,11 @@ int main() {
         delete team;
     }
     while (!allWalkersIsWorking(teams)){
-        cout << "Enter an integer identifier:" << endl;
         int id;
-        cin >> id;
+        boss->setId(id);
         for (int i = 0; i < teams.size(); ++i) {
             teams[i].addTasks(teams[i].tasksCount(id));
         }
     }
-    cout << "Now all workers are working on tasks!" << endl;
+    cout << "Good job, boss! Now all workers are working on tasks!" << endl;
 }
