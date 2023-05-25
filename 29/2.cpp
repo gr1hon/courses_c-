@@ -20,15 +20,15 @@ private:
     double radius;
 
 public:
-    virtual double square(){
+    double square() override{
         return ::atan(1) * 4 * ::pow(radius, 2);
     }
 
-    virtual string type(){
+    string type() override{
         return "Circle";
     }
 
-    virtual BoundingBoxDimensions dimensions(){
+    BoundingBoxDimensions dimensions() override{
         BoundingBoxDimensions box{};
         box.width = radius * 2;
         box.height = radius * 2;
@@ -44,15 +44,15 @@ private:
     double height;
     double width;
 public:
-    virtual double square(){
+    double square() override{
         return height * width;
     }
 
-    virtual string type(){
+    string type() override{
         return "Rectangle";
     }
 
-    virtual BoundingBoxDimensions dimensions(){
+    BoundingBoxDimensions dimensions() override{
         BoundingBoxDimensions box{};
         box.width = width;
         box.height = height;
@@ -70,15 +70,15 @@ private:
     double side3;
     double p = (side1 + side2 + side3) / 2;
 public:
-    virtual double square(){
+    double square() override{
         return sqrt(p * (p-side1) * (p-side2) * (p-side3));
     }
 
-    virtual string type(){
+    string type() override{
         return "Triangle";
     }
 
-    virtual BoundingBoxDimensions dimensions(){
+    BoundingBoxDimensions dimensions() override{
         BoundingBoxDimensions box{};
         double r = side1 * side2 * side3 / (4 * sqrt(p * (p-side1) * (p-side2) * (p-side3)));
         double side = r * 2;
