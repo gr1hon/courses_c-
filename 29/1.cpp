@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
 class Animal{
@@ -11,83 +11,62 @@ public:
 class Talent{
 
 public:
-    virtual void swimming() = 0;
-
-    virtual void dancing() = 0;
-
-    virtual void counting() = 0;
+    virtual void invoke() = 0;
 };
 
 class Swim: virtual public Talent{
 
 public:
-    virtual void swimming(){
-        cout << "Swim!" << endl;
+    void invoke() override{
+        cout << "It can swim!" << endl;
     }
-    bool canSwimming = false;
 };
 
 class Dance: virtual public Talent{
 
 public:
-    virtual void dancing(){
-        cout << "Dance!" << endl;
+    void invoke() override{
+        cout << "It can dance!" << endl;
     }
-    bool canDancing = false;
 };
 
 class Count: virtual public Talent{
 
 public:
-    virtual void counting(){
-        cout << "Count!" << endl;
+    void invoke() override{
+        cout << "It can count!" << endl;
     }
-    bool canCounting = false;
 };
 
-class Dog: public Animal,
-            virtual public Count,
-            virtual public Dance,
-            virtual public Swim{
-
+class Dog: public Animal{
+private:
+    vector<Talent*> talents;
 public:
-
+    
     Dog(string _name){
         name = _name;
     }
 
     void addTalentDance(){
-        if (!this->canDancing){
-            this->Dance::dancing();
-            this->canDancing = true;
-        } else
-            cout << this->name << " can already dance!" << endl;
+        auto* dance = new Dance();
+        talents.push_back(dance);
     }
 
     void addTalentSwim(){
-        if (!this->canSwimming){
-            this->Swim::swimming();
-            this->canSwimming = true;
-        } else
-            cout << this->name << " can already swim!" << endl;
+        auto* swim = new Swim();
+        talents.push_back(swim);
     }
 
     void addTalentCount(){
-        if (!this->canCounting){
-            this->Count::counting();
-            this->canCounting = true;
-        } else
-            cout << this->name << " can already count!" << endl;
+        auto* count = new Count();
+        talents.push_back(count);
     }
 
-    void show_talent(){
+    void show_talents(){
         cout << "This is " << this->name << " and it has some talents:" << endl;
-        if (this->canCounting)
-            cout << "It can count" << endl;
-        if (this->canSwimming)
-            cout << "It can swim" << endl;
-        if (this->canDancing)
-            cout << "It can dance" << endl;
+        for (auto & talent : talents) {
+            talent->invoke();
+        }
     }
 
 };
@@ -112,5 +91,5 @@ int main() {
         cout << "Enter the talent of " << dog->name <<  " (or 'exit')" << endl;
         cin >> talent;
     }
-    dog->show_talent();
+    dog->show_talents();
 }
