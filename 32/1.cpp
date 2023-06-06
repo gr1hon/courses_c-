@@ -49,18 +49,22 @@ int main(){
     getline(cin, new_film.producer);
     Film["Producer"] = new_film.producer;
 
-    string input;
-    while(input != "end"){
-        pair<string, string> actor;
+    nlohmann::json Actors;
+    string actor;
+    string role;
+    while(actor != "end"){
+        pair<string, string> actors;
         cout << "the actor(or 'end'):" << endl;
-        getline(cin, input);
-        if (input != "end"){
-            actor.first = input;
+        getline(cin, actor);
+        if (actor != "end"){
+            actors.first = actor;
             cout << "his(her) role:" << endl;
-            getline(cin, input);
-            actor.second = input;
-            new_film.actors.insert(actor);
+            getline(cin, role);
+            actors.second = role;
+            new_film.actors.insert(actors);
+            Actors[actor] = role;
         }
     }
+    Film["Actors"] = Actors;
     file << Film;
 }
