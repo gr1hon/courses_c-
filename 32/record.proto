@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+message Record{
+  required int32 year = 1;
+  required string address = 2;
+  required string name = 3;
+  optional string activity_type = 4;
+  optional bool foreign_activity = 5;
+}
