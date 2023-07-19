@@ -21,44 +21,44 @@ private:
 class shared_ptr_toy{
 private:
     Toy* obj;
-    int* p_linksNumber;
+    int linksNumber = 0;
+    int* p_linksNumber = &linksNumber;
 
 public:
 
     //конструктор
     shared_ptr_toy(Toy *_obj = nullptr){
-        *p_linksNumber = 1;
+        ++(*p_linksNumber);
         obj = _obj;
     }
 
     shared_ptr_toy(string name){
         obj = new Toy(name);
-        *p_linksNumber = 1;
+        ++(*p_linksNumber);
     }
 
     //    конструктор копий
     shared_ptr_toy(const shared_ptr_toy& oth){
         obj = oth.obj;
+        ++(*oth.p_linksNumber);
         ++(*p_linksNumber);
-        cout << "copy " << *p_linksNumber << " " << endl;
+//        cout << "copy " << linksNumber << " "  << obj->getName() << endl;
     }
 
     //    оператор присваивания копированием
     shared_ptr_toy& operator=(const shared_ptr_toy& oth){
+//        ++(*oth.p_linksNumber);
         obj = oth.obj;
         ++(*p_linksNumber);
-        cout << "= " << *p_linksNumber << " " << endl;
         return *this;
     }
 
     //    деструктор
     ~shared_ptr_toy(){
+        --(*p_linksNumber);
         if (*p_linksNumber == 0){
             cout << "Delete object" << endl;
             delete obj;
-        } else{
-            --(*p_linksNumber);
-            cout << "Delete copy "  << *p_linksNumber << " " << endl;
         }
     }
 };
@@ -86,9 +86,13 @@ public:
     Dog() : Dog("Snow", make_shared_toy("SomeToy"), 0) {};
     Dog(string _name) : Dog(_name, make_shared_toy("SomeToy"), 0) {};
     Dog(int _age) : Dog("Snow", make_shared_toy("SomeToy"), _age) {};
+
 };
 
 int main() {
     shared_ptr_toy ball = make_shared_toy("Ball");
-    Dog a("A", ball, 3);
+    shared_ptr_toy bone = make_shared_toy("Bone");
+//    shared_ptr_toy ball_copy = make_shared_toy(ball);
+    Dog* a = new Dog("A", ball, 3);
+    delete a;
 }
