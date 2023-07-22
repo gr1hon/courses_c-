@@ -5,17 +5,8 @@
 
 using namespace std;
 
-//struct film{
-//    string title;
-//    string country;
-//    string date;
-//    string company;
-//    string scriptWriter;
-//    string director;
-//    string producer;
-//    map<string, string> actors;
-//};
-
+//С помощью initialization сначала вручную заносим данные о фильме 
+//в файл films.json, потом уже в нём выполняем поиск
 void initialization(nlohmann::json &Films){
     nlohmann::json NewFilm;
     string input;
@@ -69,6 +60,12 @@ void initialization(nlohmann::json &Films){
 }
 
 int main(){
+//    ofstream films("films.json");
+//    nlohmann::json Films;
+//    for (int i = 0; i < 5; ++i) {
+//        initialization(Films);
+//    }
+//    films << Films;
     ifstream films("films.json");
     nlohmann::json Films;
     films >> Films;
@@ -77,13 +74,10 @@ int main(){
     cin >> name;
     for (const auto& film : Films) {
         nlohmann::json roles = film["Actors"];
-        cout << roles.contains(name) << endl;
-        roles.c
-//        cout << actors;
-//        auto role = actors.find(name);
-//        if(role != actors.end()){
-//            std::cout << std::boolalpha;
-//            cout << film["Title"] << ": " << *role << endl;
-//        }
+        for(auto it = roles.begin(); it != roles.end(); ++it){
+            if (it.key().find(name) != string::npos){
+                cout << film["Title"] << " : " << it.value() << endl;
+            }
+        }
     }
 }
